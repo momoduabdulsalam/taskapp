@@ -44,3 +44,6 @@ secrets/
 
 # Archives
 *.zip
+
+# Terraform working directory
+**/.terraform/

@@ -25,3 +25,16 @@ module "security_group" {
   project_name = var.project_name
   admin_cidr   = "197.211.59.81/32"
 }
+module "compute" {
+  source = "./compute"
+
+  project_name      = var.project_name
+  instance_type     = "t3.small"
+  security_group_id = module.security_group.security_group_id
+
+  subnet_ids = [
+    module.network.public_subnet_a_id,
+    module.network.public_subnet_b_id,
+    module.network.public_subnet_c_id,
+  ]
+}

@@ -1,0 +1,21 @@
+
+---
+- name: Prepare all Kubernetes nodes
+  hosts: k3s
+  become: true
+  roles:
+    - base
+
+- name: Install K3s server
+  hosts: k3s_server
+  become: true
+  roles:
+    - k3s-server
+
+- name: Install K3s agents
+  hosts: k3s_agents
+  vars_files:
+    - k3s-secrets.yml
+  become: true
+  roles:
+    - k3s-agent

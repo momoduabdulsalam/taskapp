@@ -1,0 +1,10 @@
+---
+- name: Install K3s server
+  ansible.builtin.shell:
+    cmd: >
+      curl -sfL https://get.k3s.io |
+      INSTALL_K3S_VERSION="v1.36.4+k3s1"
+      sh -s - server
+      --write-kubeconfig-mode 600
+  args:
+    creates: /usr/local/bin/k3s

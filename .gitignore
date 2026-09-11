@@ -47,3 +47,4 @@ secrets/
 
 # Terraform working directory
 **/.terraform/
+infra/ansible/k3s-secrets.yml

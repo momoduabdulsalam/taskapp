@@ -1,7 +1,46 @@
+# Environment files and secrets
 .env
+.env.*
+!.env.example
 backend/.env
-backend/.venv
-node_modules/
-__PYCACHE__/
+backend/.env.*
+!.env.example
+
+# Python
+backend/.venv/
+.venv/
 __pycache__/
+**/__pycache__/
 *.pyc
+
+# Node
+node_modules/
+**/node_modules/
+dist/
+build/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# Kubernetes
+kubeconfig
+kubeconfig.*
+*.kubeconfig
+.secrets/
+secrets/
+*.secret
+*.key
+
+# Local tooling
+.vscode/
+.idea/
+*.log
+
+# Archives
+*.zip

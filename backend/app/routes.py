@@ -129,3 +129,7 @@ def signup():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+
+@api_bp.route('/health', methods=['GET'])
+def health():
+    return {'status': 'healthy'}, 200

@@ -14,10 +14,11 @@ def create_app():
         'postgresql://taskuser:taskpassword@localhost:5432/taskmanager'
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = os.getenv(
-        'SECRET_KEY',
-        'dev-secret-key-change-in-production'
-    )
+    secret_key = os.getenv('SECRET_KEY')
+    if not secret_key:
+        raise RuntimeError('SECRET_KEY environment variable is required')
+
+    app.config['SECRET_KEY'] = secret_key
 
     db.init_app(app)
     CORS(app)

@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from sqlalchemy import text
 from app import db
 from app.models import Task, User
 from app.auth import token_required, login_user, generate_token
@@ -133,3 +134,13 @@ def signup():
 @api_bp.route('/health', methods=['GET'])
 def health():
     return {'status': 'healthy'}, 200
+
+
+@api_bp.route('/ready', methods=['GET'])
+def ready():
+    try:
+        db.session.execute(text('SELECT 1'))
+        return {'status': 'ready'}, 200
+    except Exception:
+        db.session.rollback()
+        return {'status': 'not ready'}, 503

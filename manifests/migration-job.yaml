@@ -1,6 +1,8 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
   name: taskapp-migration
   namespace: taskapp
 spec:

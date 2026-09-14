@@ -39,7 +39,7 @@ spec:
 
       containers:
         - name: frontend
-          image: ghcr.io/momoduabdulsalam/taskapp-frontend:nginx-nonroot
+          image: ghcr.io/momoduabdulsalam/taskapp-frontend@sha256:cb89f4cc485eb85b9888fcedd5e156bc31646ddea9d8f3a64a4d6809bd526b24
           imagePullPolicy: IfNotPresent
 
           ports:

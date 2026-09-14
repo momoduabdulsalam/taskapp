@@ -39,7 +39,7 @@ spec:
 
       containers:
         - name: backend
-          image: ghcr.io/momoduabdulsalam/taskapp-backend:b5c8161
+          image: ghcr.io/momoduabdulsalam/taskapp-backend@sha256:42203ddd65ec3af5fdb55fdd83a6ac971833b261497f7edab4111530db16e84d
           imagePullPolicy: IfNotPresent
 
           ports:

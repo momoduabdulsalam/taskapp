@@ -1,0 +1,52 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: taskapp-migration
+  namespace: taskapp
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      labels:
+        app: taskapp-migration
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migration
+          image: postgres:16-alpine
+          env:
+            - name: PGHOST
+              value: postgres
+            - name: PGPORT
+              value: "5432"
+            - name: PGDATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_DB
+            - name: PGUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_USER
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          command:
+            - sh
+            - -c
+            - |
+              until pg_isready; do
+                echo "Waiting for PostgreSQL..."
+                sleep 3
+              done
+              psql -v ON_ERROR_STOP=1 -f /migrations/001_initial_schema.sql
+          volumeMounts:
+            - name: migration
+              mountPath: /migrations
+      volumes:
+        - name: migration
+          configMap:
+            name: taskapp-migration

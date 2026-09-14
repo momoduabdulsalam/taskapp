@@ -23,7 +23,7 @@ module "security_group" {
 
   vpc_id       = module.network.vpc_id
   project_name = var.project_name
-  admin_cidr   = "197.211.59.81/32"
+  admin_cidr   = "102.204.76.165/32"
 }
 module "compute" {
   source = "./compute"

@@ -22,6 +22,7 @@ spec:
     spec:
       imagePullSecrets:
         - name: ghcr-pull-secret
+
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -29,33 +30,43 @@ spec:
           labelSelector:
             matchLabels:
               app: taskapp-frontend
+
       securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
         seccompProfile:
           type: RuntimeDefault
+
       containers:
         - name: frontend
           image: ghcr.io/momoduabdulsalam/taskapp-frontend:nginx-nonroot
           imagePullPolicy: IfNotPresent
+
           ports:
             - containerPort: 8080
+
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
             capabilities:
               drop:
                 - ALL
+
           resources:
             requests:
-              cpu: "100m"
+              cpu: "50m"
               memory: "64Mi"
             limits:
-              cpu: "300m"
+              cpu: "250m"
               memory: "256Mi"
+
           startupProbe:
             httpGet:
               path: /healthz
               port: 8080
             failureThreshold: 30
             periodSeconds: 5
+
           livenessProbe:
             httpGet:
               path: /healthz
@@ -64,12 +75,12 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 3
+
           readinessProbe:
             httpGet:
               path: /healthz
               port: 8080
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 3
-          terminationMessagePolicy: File
